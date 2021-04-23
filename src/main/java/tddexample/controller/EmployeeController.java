@@ -3,6 +3,7 @@ package tddexample.controller;
 import org.springframework.web.bind.annotation.*;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
+import tddexample.model.rest.EmployeeUpdateRequest;
 import tddexample.service.EmployeeService;
 
 import javax.validation.Valid;
@@ -19,6 +20,11 @@ public class EmployeeController {
     @PostMapping("/employees")
     Employee newEmployee(@RequestBody @Valid EmployeeSaveRequest request) {
         return employeeService.saveEmployee(request);
+    }
+
+    @PutMapping("/employees")
+    Employee updateEmployee(@RequestBody @Valid EmployeeUpdateRequest request) {
+        return employeeService.updateEmployee(request);
     }
 
 
