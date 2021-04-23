@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import tddexample.model.rest.EmployeeUpdateRequest;
 import tddexample.service.EmployeeService;
 
 import static org.mockito.Mockito.*;
@@ -58,6 +59,28 @@ public class EmployeeControllerTest {
                 Employee.class );
 
         Assertions.assertEquals(employee.getFullName(),savedEmployee.getFullName());
+    }
+
+    @Test
+    public void shouldUpdateEmployee() throws Exception {
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(15,"Frodo Baggins");
+
+        Employee employee = new Employee(request.getId(),"Frodo Baggins");
+        when(employeeService.updateEmployee(request)).thenReturn(employee);
+
+        MvcResult result = mockMvc.perform(put("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content( objectMapper.writeValueAsString(request))
+        ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        verify(employeeService,times(1)).updateEmployee(request);
+
+        Employee updatedEmployee = objectMapper.readValue(result.getResponse().getContentAsString(),
+                Employee.class );
+
+        Assertions.assertEquals(employee.getFullName(),updatedEmployee.getFullName());
+        Assertions.assertEquals(15,updatedEmployee.getId());
     }
 
 }
