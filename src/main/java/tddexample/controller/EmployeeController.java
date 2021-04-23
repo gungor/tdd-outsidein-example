@@ -27,5 +27,11 @@ public class EmployeeController {
         return employeeService.updateEmployee(request);
     }
 
+    @GetMapping("/employees/{id}")
+    Employee getEmployee(@PathVariable Integer id) {
+        return employeeService.getEmployee(id);
+    }
+
+
 
 }
