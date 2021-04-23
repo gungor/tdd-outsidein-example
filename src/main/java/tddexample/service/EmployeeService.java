@@ -16,4 +16,8 @@ public class EmployeeService {
         return null;
     }
 
+    public Employee getEmployee(Integer id) {
+        return null;
+    }
+
 }
