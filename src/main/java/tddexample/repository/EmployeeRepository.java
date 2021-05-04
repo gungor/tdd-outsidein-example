@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-    default Optional<Employee> findByFullName(String name){
-        return null;
-    }
+    Optional<Employee> findByFullName(String fullName);
 }
