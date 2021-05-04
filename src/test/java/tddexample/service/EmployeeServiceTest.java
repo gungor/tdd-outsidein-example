@@ -96,4 +96,12 @@ public class EmployeeServiceTest {
         Assertions.assertEquals(employee,employeeFoundByName);
     }
 
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionWhenNotFoundByName(){
+        Assertions.assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.getEmployeeByName("Frodo Baggins"));
+
+        verify(employeeRepository,times(1)).findByFullName("Frodo Baggins");
+    }
+
 }
