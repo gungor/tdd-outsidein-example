@@ -10,7 +10,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
+import tddexample.model.rest.EmployeeUpdateRequest;
 import tddexample.repository.EmployeeRepository;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -37,6 +40,21 @@ public class EmployeeServiceTest {
 
         verify(employeeRepository,times(1)).save(any(Employee.class));
         Assertions.assertEquals(employee,savedEmployee);
+    }
+
+    @Test
+    public void shouldUpdateEmployee(){
+        Employee oldEmployee = new Employee(20, "F. Baggins");
+        Employee employee = new Employee(20, "Frodo Baggins");
+        when(employeeRepository.findById(20)).thenReturn(Optional.of(oldEmployee));
+        when(employeeRepository.save(employee)).thenReturn(employee);
+
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(20,"Frodo Baggins");
+        Employee updatedEmployee = employeeService.updateEmployee(request);
+
+        verify(employeeRepository,times(1)).findById(any(Integer.class));
+        verify(employeeRepository,times(1)).save(any(Employee.class));
+        Assertions.assertEquals( updatedEmployee, employee );
     }
 
 }
