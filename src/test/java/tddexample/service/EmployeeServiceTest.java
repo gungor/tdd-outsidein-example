@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tddexample.exception.EmployeeNotFoundException;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
 import tddexample.model.rest.EmployeeUpdateRequest;
@@ -55,6 +56,16 @@ public class EmployeeServiceTest {
         verify(employeeRepository,times(1)).findById(any(Integer.class));
         verify(employeeRepository,times(1)).save(any(Employee.class));
         Assertions.assertEquals( updatedEmployee, employee );
+    }
+
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionFromUpdateWhenIdNotExists(){
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(1,"Frodo Baggins");
+        Assertions.assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.updateEmployee(request));
+
+        verify(employeeRepository,times(1)).findById(any(Integer.class));
+        verify(employeeRepository,times(0)).save(any(Employee.class));
     }
 
 }
