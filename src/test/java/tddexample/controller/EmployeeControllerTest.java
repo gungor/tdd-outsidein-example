@@ -2,6 +2,7 @@ package tddexample.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tddexample.exception.EmployeeNotFoundException;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
 import org.junit.jupiter.api.Assertions;
@@ -119,6 +120,14 @@ public class EmployeeControllerTest {
 
         Assertions.assertEquals(employee.getFullName(),savedEmployee.getFullName());
         Assertions.assertEquals(20,savedEmployee.getId());
+    }
+
+    @Test
+    public void shouldGetBadRequestWhenEmployeeNotFoundExceptionThrown() throws Exception {
+        when(employeeService.getEmployee(20)).thenThrow(new EmployeeNotFoundException());
+
+        mockMvc.perform(get("/employees/20"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
 }
