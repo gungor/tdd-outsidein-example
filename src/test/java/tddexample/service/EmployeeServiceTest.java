@@ -77,4 +77,12 @@ public class EmployeeServiceTest {
         verify(employeeRepository,times(1)).findById(any(Integer.class));
     }
 
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionFromGetWhenIdNotExist(){
+        Assertions.assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.getEmployee(1));
+
+        verify(employeeRepository,times(1)).findById(any(Integer.class));
+    }
+
 }
