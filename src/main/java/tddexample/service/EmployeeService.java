@@ -4,12 +4,20 @@ import org.springframework.stereotype.Service;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
 import tddexample.model.rest.EmployeeUpdateRequest;
+import tddexample.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
 
+    private EmployeeRepository employeeRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     public Employee saveEmployee(EmployeeSaveRequest request){
-        return null;
+        Employee employee = new Employee(null,request.getFullName());
+        return employeeRepository.save(employee);
     }
 
     public Employee updateEmployee(EmployeeUpdateRequest request) {
