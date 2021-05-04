@@ -68,4 +68,13 @@ public class EmployeeServiceTest {
         verify(employeeRepository,times(0)).save(any(Employee.class));
     }
 
+    @Test
+    public void shouldGetEmployeeWhenIdExists(){
+        Employee employee = new Employee(20, "Frodo Baggins");
+        when(employeeRepository.findById(20)).thenReturn(Optional.of(employee));
+
+        Assertions.assertEquals(employee, employeeService.getEmployee(20));
+        verify(employeeRepository,times(1)).findById(any(Integer.class));
+    }
+
 }
