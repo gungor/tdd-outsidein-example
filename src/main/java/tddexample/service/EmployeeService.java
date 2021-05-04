@@ -20,4 +20,7 @@ public class EmployeeService {
         return null;
     }
 
+    public Employee getEmployeeByName(String fBaggins) {
+        return null;
+    }
 }

@@ -102,4 +102,23 @@ public class EmployeeControllerTest {
         Assertions.assertEquals(20,savedEmployee.getId());
     }
 
+    @Test
+    public void shouldGetEmployeeWhenCalledWithExistingEmployeeName() throws Exception {
+        Employee employee = new Employee(20,"FBaggins");
+        when(employeeService.getEmployeeByName("FBaggins")).thenReturn(employee);
+
+        MvcResult result = mockMvc.perform(get("/employees/name/FBaggins")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        verify(employeeService,times(1)).getEmployeeByName("FBaggins");
+
+        Employee savedEmployee = objectMapper.readValue(result.getResponse().getContentAsString(),
+                Employee.class );
+
+        Assertions.assertEquals(employee.getFullName(),savedEmployee.getFullName());
+        Assertions.assertEquals(20,savedEmployee.getId());
+    }
+
 }
