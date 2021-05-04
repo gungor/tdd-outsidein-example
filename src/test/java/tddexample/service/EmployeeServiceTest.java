@@ -85,4 +85,15 @@ public class EmployeeServiceTest {
         verify(employeeRepository,times(1)).findById(any(Integer.class));
     }
 
+    @Test
+    public void shouldReturnEmployeeWhenFoundByName(){
+        Employee employee = new Employee(10,"Frodo Baggins");
+        when(employeeRepository.findByFullName("Frodo Baggins")).thenReturn(Optional.of(employee));
+
+        Employee employeeFoundByName = employeeService.getEmployeeByName("Frodo Baggins");
+
+        verify(employeeRepository,times(1)).findByFullName("Frodo Baggins");
+        Assertions.assertEquals(employee,employeeFoundByName);
+    }
+
 }
